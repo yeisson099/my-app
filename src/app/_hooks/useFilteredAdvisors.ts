@@ -20,13 +20,13 @@ export const useFilteredAdvisors = (
         let currentAdvisors = [...advisors];
 
         // Filter by search query
+
+        console.log(debouncedSearchQuery)
         if (debouncedSearchQuery) {
             currentAdvisors = currentAdvisors.filter(
                 (advisor) =>
                     advisor.name.toLowerCase().includes(debouncedSearchQuery) ||
-                    advisor.email.toLowerCase().includes(debouncedSearchQuery) ||
-                    advisor.address.toLowerCase().includes(debouncedSearchQuery) ||
-                    advisor.phone.toLowerCase().includes(debouncedSearchQuery)
+                    advisor.income.toString().includes(debouncedSearchQuery)
             );
         }
 
