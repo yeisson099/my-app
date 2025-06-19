@@ -98,22 +98,6 @@ export default function AdvisorDetailPageContent({
           >
             Go Back
           </Button>
-          <div className={styles.advisorDetailPage__actions}>
-            <Button
-              variant="danger"
-              onClick={handleDeleteClick}
-              className={styles.advisorDetailPage__deleteButton}
-            >
-              Delete
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={handleEditClick}
-              className={styles.advisorDetailPage__editButton}
-            >
-              Edit Advisor
-            </Button>
-          </div>
         </div>
 
         <div className={styles.advisorDetailPage__profileInfo}>
@@ -125,40 +109,47 @@ export default function AdvisorDetailPageContent({
               height={120}
               className={styles.advisorDetailPage__avatar}
             />
+            <div className={styles.advisorDetailPage__actions}>
+              <Button
+                variant="danger"
+                onClick={handleDeleteClick}
+                className={styles.advisorDetailPage__deleteButton}
+              >
+                <Image
+                  src={"/delete.png"}
+                  alt={"delete"}
+                  width={16}
+                  height={16}
+                />
+                Delete
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={handleEditClick}
+                className={styles.advisorDetailPage__editButton}
+              >
+                <Image src={"/edit.png"} alt={"edit"} width={16} height={16} />
+                Edit Advisor
+              </Button>
+            </div>
           </div>
-          <h2
-            className={`${styles.advisorDetailPage__name} ${noto.className} antialiased`}
-          >
-            {advisor.name}{" "}
+          <div className={styles.advisorDetailPage__locationAndFirm}>
+            <h2
+              className={`${styles.advisorDetailPage__name} ${noto.className} antialiased`}
+            >
+              {advisor.name}{" "}
+            </h2>
             <span className={styles.advisorDetailPage__credentials}>
               N/A
               {/* {certification} */}
             </span>
-          </h2>
-          <div className={styles.advisorDetailPage__locationAndFirm}>
             <span className={styles.advisorDetailPage__location}>
-              <svg
-                className={styles["advisorDetailPage__icon"]}
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                width="18"
-                height="18"
-              >
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z" />
-              </svg>
+              <Image src={"/location.png"} alt={"location"} width={10} height={14} />
               N/A
               {/* city  */}
             </span>
             <span className={styles.advisorDetailPage__firm}>
-              <svg
-                className={styles["advisorDetailPage__icon"]}
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                width="18"
-                height="18"
-              >
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-              </svg>
+              <Image src={"/company.png"} alt={"company"} width={14} height={14} />
               N/A
               {/* company  */}
             </span>

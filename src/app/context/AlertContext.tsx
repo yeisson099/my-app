@@ -29,7 +29,6 @@ export const AlertProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const closeAlert = useCallback((id: string) => {
-    debugger
     setAlerts((prevAlerts) => prevAlerts.filter((alert) => alert.id !== id));
   }, []);
 

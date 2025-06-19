@@ -1,5 +1,8 @@
 .input {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
 }
 
 .input__label {
@@ -7,7 +10,6 @@
     font-size: var(--font-size-sm);
     color: var(--color-text-dark);
     margin-bottom: var(--spacing-xs);
-    font-weight: 500;
 }
 
 .input__field {
@@ -44,4 +46,5 @@
 .input__error-message {
     font-size: var(--font-size-sm);
     color: var(--color-error);
-    margin-top: var(--spacing-xs); }
+    margin-top: var(--spacing-xs); 
+}

@@ -35,6 +35,18 @@
     gap: var(--spacing-md);
 }
 
+.advisorForm__avatarActions{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:var(--spacing-md) ;
+}
+
+.advisorForm_upload{
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
 
 @media (max-width: 768px) {
     .advisorForm__grid {

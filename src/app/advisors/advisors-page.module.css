@@ -47,6 +47,8 @@
 }
 
 .advisorsPage__addNewButton {
+    display: flex;
+    gap: var(--spacing-sm);
     padding: var(--spacing-md) var(--spacing-lg);
     font-size: var(--font-size-md);
 }

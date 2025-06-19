@@ -217,7 +217,14 @@ export default function AdvisorsListPage() {
           onClick={handleAddNewAdvisor}
           className={styles.advisorsPage__addNewButton}
         >
-          + Add New Advisor
+          <Image
+            src="/plus.png"
+            alt="add advisor"
+            width={16}
+            height={16}
+            priority
+          />
+          Add New Advisor
         </Button>
       </div>
 

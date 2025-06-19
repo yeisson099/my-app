@@ -26,8 +26,21 @@
 }
 
 .advisorDetailPage__actions {
-    display: flex;
     gap: var(--spacing-md);
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+}
+
+.advisorDetailPage__deleteButton,
+.advisorDetailPage__editButton {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--font-size-md);
+    gap: var(--spacing-sm);
+    padding: var(--spacing-m) var(--spacing-md);
 }
 
 .advisorDetailPage__profileInfo {
@@ -36,18 +49,15 @@
 }
 
 .advisorDetailPage__avatarContainer {
-    width: 120px;
-    height: 120px;
-    border-radius: var(--border-radius-full);
-    overflow: hidden;
-    margin: 0 auto var(--spacing-lg);
-    box-shadow: var(--box-shadow-sm);
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .advisorDetailPage__avatar {
-    width: 100%;
-    height: 100%;
+    border-radius: var(--border-radius-full);
     object-fit: cover;
+    box-shadow: var(--box-shadow-sm);
 }
 
 .advisorDetailPage__name {
@@ -70,7 +80,7 @@
 
 .advisorDetailPage__locationAndFirm {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     gap: var(--spacing-lg);
     margin-bottom: var(--spacing-xxl);
@@ -81,7 +91,7 @@
 .advisorDetailPage__firm {
     display: flex;
     align-items: center;
-    gap: var(--spacing-xxs);
+    gap: var(--spacing-sm);
     font-size: var(--font-size-md);
     color: var(--color-text-light);
 }
@@ -111,14 +121,14 @@
 
 .advisorDetailPage__detailLabel {
     font-size: var(--font-size-md);
-    color: var(--color-text-light);
+    color: var(--color-text-dark);
     font-weight: 500;
 }
 
 .advisorDetailPage__detailValue {
     font-size: var(--font-size-md);
     color: var(--color-text-dark);
-    font-weight: 600;
+    font-weight: 300;
     text-align: right;
 }
 
@@ -200,5 +210,5 @@
 
     .advisorDetailPage__name {
         font-size: var(--font-size-lg);
-    } 
+    }
 }

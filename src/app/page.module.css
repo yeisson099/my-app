@@ -37,14 +37,15 @@
 }
 
 .home__title {
-  font-size: var(--font-size-xxl);
+  font-size: var(--font-size-xl);
   margin-bottom: var(--spacing-md);
   color: var(--color-text-dark);
   font-weight: 700;
+  margin: 0;
 }
 
 .home__description {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-md);
   margin-bottom: var(--spacing-xl);
   color: var(--color-text-light);
 }
@@ -55,13 +56,14 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-lg);
   flex-wrap: wrap;
 }
 
 .home__incomeInput {
-  flex-grow: 0;
-  width: 200px;
+  flex-grow: 1;
+  width: 320px;
+  padding: 10px;
 }
 
 .home__search-button {
@@ -74,7 +76,7 @@
   gap: var(--spacing-sm);
   background-color: var(--color-primary);
   color: var(--color-white);
-  border-radius: var(--border-radius-sm);
+  border-radius: var(--border-radius-md);
 }
 
 .home__search-button-icon {

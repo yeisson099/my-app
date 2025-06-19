@@ -1,6 +1,6 @@
 import { Advisor, AdvisorPayload, AdvisorUpdatePayload, ApiResponse, SingleAdvisorResponse } from "@types";
 
-const API_BASE_URL = process.env.API_BASE_URL;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 

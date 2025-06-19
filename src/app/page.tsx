@@ -35,12 +35,6 @@ export default function HomePage() {
     router.push(`/advisors?income=${income}`);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
-  };
-
   return (
     <div className={styles.home__container}>
       <div className={styles.home__content}>
@@ -70,9 +64,9 @@ export default function HomePage() {
             type="number"
             name="income"
             id="income"
+            label="Curren Icome"
             value={income}
             onChange={handleIncomeChange}
-            onKeyPress={handleKeyPress}
             placeholder="Current income"
             error={error}
             maxLength={5}
@@ -87,8 +81,8 @@ export default function HomePage() {
             <Image
               src="/search.png"
               alt="search advisor"
-              width={14}
-              height={14}
+              width={16}
+              height={16}
               priority
               className={styles["home__search-button-icon"]}
             />

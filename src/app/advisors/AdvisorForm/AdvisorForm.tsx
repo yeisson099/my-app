@@ -5,6 +5,7 @@ import styles from "./AdvisorForm.module.css";
 import { Advisor, AdvisorPayload, AdvisorUpdatePayload } from "@types";
 import { Input, Button, Modal } from "@components";
 import { useFormValidation } from "../../_hooks";
+import Image from "next/image";
 
 interface AdvisorFormProps {
   initialData?: Advisor | null;
@@ -83,7 +84,9 @@ const AdvisorForm: React.FC<AdvisorFormProps> = ({ initialData, onSubmit }) => {
             variant="secondary"
             type="button"
             onClick={() => setShowAvatarModal(true)}
+            className={styles.advisorForm_upload}
           >
+            <Image src={"/upload.png"} alt={"upload"} width={14} height={14} />
             Upload Picture
           </Button>
 
