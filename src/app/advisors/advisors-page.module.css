@@ -139,41 +139,57 @@
 }
 
 .advisorsPage__pagination {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-top: var(--spacing-xl);
     padding-top: var(--spacing-md);
     border-top: 1px solid var(--color-border);
+    display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(1, 1fr);
+        gap: 8px;
 }
 
 .advisorsPage__pagination-info {
+    display: flex;
+    align-items: center;
     font-size: var(--font-size-md);
-    color: var(--color-text-dark);
-    font-weight: 500;
+    color: var( --color-text-disabled);
 }
 
 .advisorsPage__pagination-controls {
     display: flex;
     align-items: center;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm);
+    grid-column-start: 3;
 }
 
 .advisorsPage__pagination-pageNumber {
+    padding: var(--spacing-md) var(--spacing-md);
     font-size: var(--font-size-md);
     color: var(--color-text-dark);
-    font-weight: 600;
-    min-width: 24px;
+    background-color: transparent;
+    border-radius: var(--border-radius-sm);
+    min-width: 32px;
     text-align: center;
+    cursor: pointer;
+    line-height: .8;
+    transition: all 0.2s ease;
+}
+
+.advisorsPage__pagination-pageNumber:hover {
+    background-color: transparent;
+    color: var(--color-primary);
+}
+
+.advisorsPage__pagination-pageNumber.active {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
 }
 
 .advisorsPage__pagination-arrow {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    font-size: var(--font-size-lg);
+    padding: var(--spacing-sm) var(--spacing-sm);
     color: var(--color-text-light);
     background-color: transparent;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
     transition: background-color var(--transition-speed-fast) ease, color var(--transition-speed-fast) ease;
 }
 

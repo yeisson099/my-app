@@ -54,7 +54,6 @@
 }
 
 .button--text:hover:not(:disabled) {
-    text-decoration: underline;
     background-color: var(--color-secondary);
 }
 

@@ -6,19 +6,18 @@ import { getAdvisorById } from "@lib";
 export default async function AdvisorDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const advisorId = parseInt((await params).id);
   let advisor: Advisor | null = null;
-  let advisorNotFound = false;
 
   if (isNaN(advisorId)) {
-    advisorNotFound = true;
+    throw new Error("Advisor not found");
   }
 
   try {
-    advisor = await getAdvisorById(advisorId);
+    const advisor = await getAdvisorById(advisorId);
+    return (
+        <AdvisorDetailPageContent initialAdvisorData={advisor} />
+    );
   } catch (error) {
     console.error("Failed to fetch advisor:", error);
-    advisorNotFound = true;
-    return;    
+    throw new Error("Advisor not found");
   }
-
-  return <AdvisorDetailPageContent initialAdvisorData={advisor} />;
 }

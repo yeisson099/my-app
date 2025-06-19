@@ -53,42 +53,31 @@ const AdvisorTable: React.FC<AdvisorTableProps> = ({
               {getSortIcon("name")}
             </th>
             <th
+              className={`${styles.advisorTable__header} ${styles["advisorTable__header--button-column"]}`}
+            ></th>
+            <th
               className={`${styles.advisorTable__header} ${styles["advisorTable__header--sortable"]}`}
               onClick={() => onSort("income")}
             >
               Income {getSortIcon("income")}
             </th>
-            <th
-              className={`${styles.advisorTable__header} ${styles["advisorTable__header--button-column"]}`}
-            ></th>
           </tr>
         </thead>
         <tbody className={styles.advisorTable__body}>
           {advisors.map((advisor) => (
-            <tr
-              key={advisor.id}
-              className={styles.advisorTable__row}
-            >
+            <tr key={advisor.id} className={styles.advisorTable__row}>
               <td className={styles.advisorTable__data}>
-                <span>
-                  {advisor.name}
-                </span>
-              </td>
-              <td className={styles.advisorTable__data}>
-                {new Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                }).format(advisor.income)}
+                <span>{advisor.name}</span>
               </td>
               <td
                 className={`${styles.advisorTable__data} ${styles["advisorTable__data--button-cell"]}`}
               >
                 <div className={styles.advisorTable__hoverActions}>
                   <Button
-                    variant="primary"
-                    size="sm"
+                    variant="secondary"
+                    size="md"
                     onClick={(e) => {
-                      e.stopPropagation(); 
+                      e.stopPropagation();
                       handleSeeDetailsClick(advisor.id);
                     }}
                     className={styles.advisorTable__detailButton}
@@ -96,6 +85,12 @@ const AdvisorTable: React.FC<AdvisorTableProps> = ({
                     See Advisor Details
                   </Button>
                 </div>
+              </td>
+              <td className={styles.advisorTable__data}>
+                {new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                }).format(advisor.income)}
               </td>
             </tr>
           ))}

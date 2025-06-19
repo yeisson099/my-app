@@ -22,7 +22,7 @@
       "@/*": ["./src/app"],
       "@types": ["./src/app/_types/"],
       "@lib": ["./src/app/_lib/"],
-      "@hooks": ["./src/app/hooks/"],
+      "@hooks": ["./src/app/_hooks/"],
       "@context": ["./src/app/context/"],
       "@components": ["./src/app/components/common"]
     }

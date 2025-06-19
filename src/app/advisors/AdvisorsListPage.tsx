@@ -1,28 +1,22 @@
-'use client'
+"use client";
 
-import React, { useState, useEffect, useMemo, Suspense } from "react";
+import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import {
-  getAdvisors,
-  createAdvisor,
-  updateAdvisor,
-  deleteAdvisor,
-} from "@lib";
+import { getAdvisors, createAdvisor, updateAdvisor, deleteAdvisor } from "@lib";
 import { Advisor, AdvisorPayload, AdvisorUpdatePayload } from "@types";
 import styles from "./advisors-page.module.css";
-import { useDebounce, useQueryParams } from "../_hooks";
+import { useDebounce, useQueryParams, useFilteredAdvisors } from "@hooks";
 import { useAlert } from "@context";
 import { Button, Input, Modal, Spinner } from "@components";
 import AdvisorTable from "./AdvisorTable/AdvisorTable";
 import AdvisorForm from "./AdvisorForm/AdvisorForm";
 import { noto } from "../_styles/fonts";
+import Image from "next/image";
 
 export const metadata = {
   title: "Advisors List",
   description: "View and manage financial advisors.",
 };
-
-const ITEMS_PER_PAGE = 10;
 
 export default function AdvisorsListPage() {
   const router = useRouter();
@@ -35,18 +29,27 @@ export default function AdvisorsListPage() {
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [editingAdvisor, setEditingAdvisor] = useState<Advisor | null>(null);
-  const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState<boolean>(false);
+  const [showConfirmDeleteModal, setShowConfirmDeleteModal] =
+    useState<boolean>(false);
   const [advisorToDelete, setAdvisorToDelete] = useState<Advisor | null>(null);
 
-  const initialSearchQueryParam = searchParams.get('search') || '';
-  const initialPageParam = parseInt(searchParams.get('page') || '1');
-  const initialSortByParam = (searchParams.get('sortBy') as 'name' | 'income' | '') || '';
-  const initialSortOrderParam = (searchParams.get('sortOrder') as 'asc' | 'desc' | '') || '';
+  const initialSearchQueryParam = searchParams.get("search") || "";
+  const initialPageParam = parseInt(searchParams.get("page") || "1");
+  const initialSortByParam =
+    (searchParams.get("sortBy") as "name" | "income" | "") || "";
+  const initialSortOrderParam =
+    (searchParams.get("sortOrder") as "asc" | "desc" | "") || "";
 
-  const [searchQuery, setSearchQuery] = useState<string>(initialSearchQueryParam);
+  const [searchQuery, setSearchQuery] = useState<string>(
+    initialSearchQueryParam
+  );
   const [currentPage, setCurrentPage] = useState<number>(initialPageParam);
-  const [sortBy, setSortBy] = useState<'name' | 'income' | ''>(initialSortByParam);
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | ''>(initialSortOrderParam);
+  const [sortBy, setSortBy] = useState<"name" | "income" | "">(
+    initialSortByParam
+  );
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc" | "">(
+    initialSortOrderParam
+  );
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
@@ -59,8 +62,11 @@ export default function AdvisorsListPage() {
         setAllAdvisors(advisors);
       } catch (err: any) {
         console.error("Failed to fetch advisors:", err);
-        setError(err.message || 'Failed to load advisors.');
-        showAlert({ type: 'error', message: err.message || 'Failed to load advisors.' });
+        setError(err.message || "Failed to load advisors.");
+        showAlert({
+          type: "error",
+          message: err.message || "Failed to load advisors.",
+        });
       } finally {
         setLoading(false);
       }
@@ -78,61 +84,31 @@ export default function AdvisorsListPage() {
     setQueryParams(updates);
   }, [debouncedSearchQuery, currentPage, sortBy, sortOrder, setQueryParams]);
 
-  const filteredAdvisors = useMemo(() => {
-    let currentAdvisors = [...allAdvisors ?? []];
-
-    if (debouncedSearchQuery) {
-      const searchLower = debouncedSearchQuery.toLowerCase();
-      currentAdvisors = currentAdvisors.filter(
-        (advisor) =>
-          advisor.name.toLowerCase().includes(searchLower) ||
-          advisor.email.toLowerCase().includes(searchLower) ||
-          advisor.address.toLowerCase().includes(searchLower) ||
-          advisor.phone.toLowerCase().includes(searchLower)
-      );
-    }
-
-    if (sortBy && sortOrder) {
-      currentAdvisors.sort((a, b) => {
-        let valA: string | number = '';
-        let valB: string | number = '';
-
-        if (sortBy === 'name') {
-          valA = a.name.toLowerCase();
-          valB = b.name.toLowerCase();
-        } else if (sortBy === 'income') {
-          valA = a.income;
-          valB = b.income;
-        }
-
-        if (valA < valB) return sortOrder === 'asc' ? -1 : 1;
-        if (valA > valB) return sortOrder === 'asc' ? 1 : -1;
-        return 0;
-      });
-    }
-
-    return currentAdvisors;
-  }, [allAdvisors, debouncedSearchQuery, sortBy, sortOrder]);
-
-  const totalPages = Math.ceil(filteredAdvisors.length / ITEMS_PER_PAGE);
-  const paginatedAdvisors = useMemo(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
-    return filteredAdvisors.slice(startIndex, endIndex);
-  }, [filteredAdvisors, currentPage]);
+  const { paginatedAdvisors, totalPages, totalItems } = useFilteredAdvisors(
+    allAdvisors,
+    currentPage,
+    debouncedSearchQuery,
+    sortBy,
+    sortOrder
+  );
 
   const handlePageChange = (page: number) => {
     const newPage = Math.max(1, Math.min(page, totalPages));
     setCurrentPage(newPage);
-    router.push(`/advisors?${queryParams.toString().replace(/page=\d+/, `page=${newPage}`)}`, { scroll: false });
+    router.push(
+      `/advisors?${queryParams
+        .toString()
+        .replace(/page=\d+/, `page=${newPage}`)}`,
+      { scroll: false }
+    );
   };
 
-  const handleSort = (newSortBy: 'name' | 'income') => {
+  const handleSort = (newSortBy: "name" | "income") => {
     if (sortBy === newSortBy) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
     } else {
       setSortBy(newSortBy);
-      setSortOrder('asc');
+      setSortOrder("asc");
     }
     setCurrentPage(1);
   };
@@ -142,14 +118,29 @@ export default function AdvisorsListPage() {
     setIsModalOpen(true);
   };
 
-  const handleFormSubmit = async (advisorData: AdvisorPayload | AdvisorUpdatePayload) => {
+  const handleFormSubmit = async (
+    advisorData: AdvisorPayload | AdvisorUpdatePayload
+  ) => {
     try {
       if (editingAdvisor) {
-        await updateAdvisor(editingAdvisor.id, advisorData as AdvisorUpdatePayload);
-        showAlert({ type: 'success', message: `Advisor "${(advisorData as AdvisorPayload).name}" updated successfully!` });
+        await updateAdvisor(
+          editingAdvisor.id,
+          advisorData as AdvisorUpdatePayload
+        );
+        showAlert({
+          type: "success",
+          message: `Advisor "${
+            (advisorData as AdvisorPayload).name
+          }" updated successfully!`,
+        });
       } else {
         await createAdvisor(advisorData as AdvisorPayload);
-        showAlert({ type: 'success', message: `Advisor "${(advisorData as AdvisorPayload).name}" created successfully!` });
+        showAlert({
+          type: "success",
+          message: `Advisor "${
+            (advisorData as AdvisorPayload).name
+          }" created successfully!`,
+        });
       }
       const updatedAdvisors = await getAdvisors();
       setAllAdvisors(updatedAdvisors);
@@ -157,8 +148,8 @@ export default function AdvisorsListPage() {
       setEditingAdvisor(null);
       setCurrentPage(1);
     } catch (err: any) {
-      showAlert({ type: 'error', message: err.message || 'Operation failed.' });
-      console.error('Form submission error:', err);
+      showAlert({ type: "error", message: err.message || "Operation failed." });
+      console.error("Form submission error:", err);
     }
   };
 
@@ -166,16 +157,24 @@ export default function AdvisorsListPage() {
     if (advisorToDelete) {
       try {
         await deleteAdvisor(advisorToDelete.id);
-        showAlert({ type: 'success', message: `Advisor "${advisorToDelete.name}" deleted successfully!` });
-        setAllAdvisors((prevAdvisors) => prevAdvisors.filter(a => a.id !== advisorToDelete.id));
+        showAlert({
+          type: "success",
+          message: `Advisor "${advisorToDelete.name}" deleted successfully!`,
+        });
+        setAllAdvisors((prevAdvisors) =>
+          prevAdvisors.filter((a) => a.id !== advisorToDelete.id)
+        );
         setShowConfirmDeleteModal(false);
         setAdvisorToDelete(null);
         if (paginatedAdvisors.length === 1 && currentPage > 1) {
           setCurrentPage(currentPage - 1);
         }
       } catch (err: any) {
-        showAlert({ type: 'error', message: err.message || 'Failed to delete advisor.' });
-        console.error('Delete error:', err);
+        showAlert({
+          type: "error",
+          message: err.message || "Failed to delete advisor.",
+        });
+        console.error("Delete error:", err);
       }
     }
   };
@@ -252,8 +251,9 @@ export default function AdvisorsListPage() {
 
         <div className={styles.advisorsPage__pagination}>
           <span className={styles["advisorsPage__pagination-info"]}>
-            {paginatedAdvisors.length} of {filteredAdvisors.length} Advisors
+            {paginatedAdvisors.length} of {totalItems} Advisors
           </span>
+
           <div className={styles["advisorsPage__pagination-controls"]}>
             <Button
               onClick={() => handlePageChange(currentPage - 1)}
@@ -262,11 +262,32 @@ export default function AdvisorsListPage() {
               size="sm"
               className={styles["advisorsPage__pagination-arrow"]}
             >
-              &lt;
+              <Image
+                src="/arrow_left.png"
+                alt="Previous"
+                width={14}
+                height={14}
+              />
             </Button>
-            <span className={styles["advisorsPage__pagination-pageNumber"]}>
-              {currentPage}
-            </span>
+
+            {/* Renderizar todas las páginas */}
+            {Array.from({ length: totalPages }, (_, index) => {
+              const pageNum = index + 1;
+              return (
+                <Button
+                  key={pageNum}
+                  onClick={() => handlePageChange(pageNum)}
+                  variant="text"
+                  size="sm"
+                  className={`${
+                    styles["advisorsPage__pagination-pageNumber"]
+                  } ${currentPage === pageNum ? styles["active"] : ""}`}
+                >
+                  {pageNum}
+                </Button>
+              );
+            })}
+
             <Button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
@@ -274,7 +295,12 @@ export default function AdvisorsListPage() {
               size="sm"
               className={styles["advisorsPage__pagination-arrow"]}
             >
-              &gt;
+              <Image
+                src="/arrow_rigth.png"
+                alt="Previous"
+                width={14}
+                height={14}
+              />
             </Button>
           </div>
         </div>
@@ -305,10 +331,7 @@ export default function AdvisorsListPage() {
         />
       </Modal>
 
-      <Modal
-        isOpen={showConfirmDeleteModal}
-        title="Confirm Deletion"
-      >
+      <Modal isOpen={showConfirmDeleteModal} title="Confirm Deletion">
         <div className={styles.advisorsPage__confirmDelete}>
           <p>
             Are you sure you want to delete advisor "{advisorToDelete?.name}"?

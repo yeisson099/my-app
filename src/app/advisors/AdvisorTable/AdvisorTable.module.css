@@ -90,10 +90,11 @@
 }
 
 .advisorTable__detailButton {
-    padding: var(--spacing-xs) var(--spacing-md);
-    font-size: var(--font-size-sm);
-    white-space: nowrap;
+    background-color: var(--color-white);
+    color: var(--color-text-light);
+    border-radius: var(--border-radius-md);
     box-shadow: var(--box-shadow-sm);
+    border: 0px;
 }
 
 @media (max-width: 768px) {

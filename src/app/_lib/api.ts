@@ -1,6 +1,6 @@
 import { Advisor, AdvisorPayload, AdvisorUpdatePayload, ApiResponse, SingleAdvisorResponse } from "@types";
 
-const API_BASE_URL = 'http://localhost:3001';
+const API_BASE_URL = process.env.API_BASE_URL;
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
