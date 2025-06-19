@@ -1,23 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-import { advisorFormSchema } from "@lib"; 
+import { advisorFormSchema } from "@lib";
 import styles from "./AdvisorForm.module.css";
 import { Advisor, AdvisorPayload, AdvisorUpdatePayload } from "@types";
-import { Input, Button } from "@components";
+import { Input, Button, Modal } from "@components";
 import { useFormValidation } from "../../_hooks";
 
 interface AdvisorFormProps {
   initialData?: Advisor | null;
   onSubmit: (data: AdvisorPayload | AdvisorUpdatePayload) => void;
-  onCancel: () => void;
   isLoading?: boolean;
 }
 
-const AdvisorForm: React.FC<AdvisorFormProps> = ({
-  initialData,
-  onSubmit,
-  onCancel,
-}) => {
+const AdvisorForm: React.FC<AdvisorFormProps> = ({ initialData, onSubmit }) => {
+  const [showAvatarModal, setShowAvatarModal] = useState<boolean>(false);
 
   const initialFormState: AdvisorPayload = {
     name: initialData?.name || "",
@@ -37,7 +33,6 @@ const AdvisorForm: React.FC<AdvisorFormProps> = ({
     resetForm,
   } = useFormValidation(initialFormState, advisorFormSchema);
 
-
   useEffect(() => {
     if (initialData) {
       setFormData({
@@ -48,26 +43,13 @@ const AdvisorForm: React.FC<AdvisorFormProps> = ({
         address: initialData.address,
         income: initialData.income,
       });
-    } else {
-      // resetForm();
     }
   }, [initialData]);
-
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData((prev) => ({ ...prev, avatar: reader.result as string }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   const handleRemoveAvatar = () => {
     setFormData((prev) => ({
       ...prev,
-      avatar: "/images/placeholder-avatar.png",
+      avatar: "/placeholder-avatar.png",
     }));
   };
 
@@ -83,11 +65,15 @@ const AdvisorForm: React.FC<AdvisorFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.advisorForm}>
+    <form
+      onSubmit={handleSubmit}
+      className={styles.advisorForm}
+      id="advisor-form"
+    >
       <div className={styles.advisorForm__avatarSection}>
         <div className={styles.advisorForm__avatarPreview}>
           <img
-            src={formData.avatar || "/images/placeholder-avatar.png"}
+            src={formData.avatar || "/placeholder-avatar.png"}
             alt="Advisor Avatar"
             className={styles["advisorForm__avatarPreview-img"]}
           />
@@ -96,35 +82,53 @@ const AdvisorForm: React.FC<AdvisorFormProps> = ({
           <Button
             variant="secondary"
             type="button"
-            onClick={() => document.getElementById("avatar-upload")?.click()}
+            onClick={() => setShowAvatarModal(true)}
           >
             Upload Picture
           </Button>
-          <input
-            id="avatar-upload"
-            type="file"
-            accept="image/*"
-            onChange={handleAvatarChange}
-            style={{ display: "none" }}
-          />
-          {formData.avatar &&
-            formData.avatar !== "/images/placeholder-avatar.png" && (
-              <Button
-                variant="danger"
-                type="button"
-                onClick={handleRemoveAvatar}
-                className={styles.advisorForm__removeAvatarButton}
-              >
-                Remove
-              </Button>
-            )}
+
+          <Modal
+            isOpen={showAvatarModal}
+            title="Add Avatar URL"
+            key="avatar-modal"
+            actions={
+              <>
+                <Button
+                  variant="secondary"
+                  onClick={() => setShowAvatarModal(false)}
+                  type="button"
+                >
+                  Go Back
+                </Button>
+              </>
+            }
+          >
+            <Input
+              id="avatar"
+              label="avatar"
+              name="avatar"
+              value={formData.avatar}
+              onChange={handleChange}
+              error={errors.avatar}
+            />
+          </Modal>
+          {formData.avatar && formData.avatar !== "/placeholder-avatar.png" && (
+            <Button
+              variant="danger"
+              type="button"
+              onClick={handleRemoveAvatar}
+              className={styles.advisorForm__removeAvatarButton}
+            >
+              Remove
+            </Button>
+          )}
         </div>
       </div>
 
       <div className={styles.advisorForm__grid}>
         <Input
           label="First Name"
-          name="firstName"
+          name="name"
           value={formData.name}
           onChange={handleChange}
           error={errors.name}
@@ -166,24 +170,6 @@ const AdvisorForm: React.FC<AdvisorFormProps> = ({
           error={errors.address}
           fullWidth
         />
-        {/* <Select
-          label="Years of Experience"
-          name="years_of_experience"
-          value={formData.years_of_experience}
-          options={yearsOfExperienceOptions}
-          onChange={(value) => handleSelectChange("years_of_experience", value)}
-          error={errors.years_of_experience}
-          fullWidth
-        /> */}
-      </div>
-
-      <div className={styles.advisorForm__actions}>
-        <Button variant="text" onClick={onCancel} type="button">
-          Go Back
-        </Button>
-        <Button variant="primary" type="submit">
-          Save Changes
-        </Button>
       </div>
     </form>
   );

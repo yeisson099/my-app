@@ -9,6 +9,7 @@
     font-size: var(--font-size-md);
     box-shadow: var(--box-shadow-sm);
     position: relative;
+    z-index: 9999;
 }
 
 /* Variants */

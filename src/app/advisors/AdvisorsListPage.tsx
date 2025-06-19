@@ -15,8 +15,12 @@ import { useAlert } from "@context";
 import { Button, Input, Modal, Spinner } from "@components";
 import AdvisorTable from "./AdvisorTable/AdvisorTable";
 import AdvisorForm from "./AdvisorForm/AdvisorForm";
-import Image from "next/image";
 import { noto } from "../_styles/fonts";
+
+export const metadata = {
+  title: "Advisors List",
+  description: "View and manage financial advisors.",
+};
 
 const ITEMS_PER_PAGE = 10;
 
@@ -278,19 +282,31 @@ export default function AdvisorsListPage() {
 
       <Modal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title={editingAdvisor ? "Edit Advisor Information" : "Add New Advisor"} // Updated title as per image
+        title={"Add New Advisor"}
+        key="user-modal"
+        actions={
+          <>
+            <Button
+              variant="secondary"
+              onClick={() => setIsModalOpen(false)}
+              type="button"
+            >
+              Go Back
+            </Button>
+            <Button variant="primary" type="submit" form="advisor-form">
+              Save Changes
+            </Button>
+          </>
+        }
       >
         <AdvisorForm
           initialData={editingAdvisor || undefined}
           onSubmit={handleFormSubmit}
-          onCancel={() => setIsModalOpen(false)}
         />
       </Modal>
 
       <Modal
         isOpen={showConfirmDeleteModal}
-        onClose={cancelDelete}
         title="Confirm Deletion"
       >
         <div className={styles.advisorsPage__confirmDelete}>

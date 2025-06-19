@@ -133,12 +133,6 @@
     color: var(--color-text-dark);
 }
 
-.advisorDetailPage__confirmDelete-actions {
-    display: flex;
-    justify-content: center;
-    gap: var(--spacing-md);
-}
-
 .advisorDetailPage__spinnerOverlay {
     position: absolute;
     top: 0;

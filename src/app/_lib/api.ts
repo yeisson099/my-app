@@ -50,18 +50,18 @@ async function fetchData<T>(
 }
 
 export const getAdvisors = async (): Promise<Advisor[]> => {
-    const advisors = await fetchData<ApiResponse<Advisor>>('/advisor');
-    return advisors;
+    const data = await fetchData<ApiResponse<Advisor>>('/advisor');
+    return data;
 };
 
 export const getAdvisorById = async (id: number): Promise<Advisor> => {
-    const advisor = await fetchData<Advisor>(`/advisor/${id}`);
-    return advisor;
+    const data = await fetchData<Advisor>(`/advisor/${id}`);
+    return data;
 };
 
 export const createAdvisor = async (advisor: AdvisorPayload): Promise<Advisor> => {
-    const data = await fetchData<SingleAdvisorResponse>('/advisor', 'POST', advisor);
-    return data.advisor;
+    const data = await fetchData<Advisor>('/advisor', 'POST', advisor);
+    return data;
 };
 
 export const updateAdvisor = async (id: number, advisor: AdvisorUpdatePayload): Promise<Advisor> => {

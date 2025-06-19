@@ -29,6 +29,7 @@ export const AlertProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const closeAlert = useCallback((id: string) => {
+    debugger
     setAlerts((prevAlerts) => prevAlerts.filter((alert) => alert.id !== id));
   }, []);
 
@@ -36,7 +37,7 @@ export const AlertProvider: React.FC<{ children: React.ReactNode }> = ({
     if (alerts.length > 0) {
       const timer = setTimeout(() => {
         setAlerts((prevAlerts) => prevAlerts.slice(1));
-      }, 5000);
+      }, 1000);
 
       return () => clearTimeout(timer);
     }

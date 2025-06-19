@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image"
-import styles from "./advisor-detail-page.module.css"; 
+import Image from "next/image";
+import styles from "./advisor-detail-page.module.css";
 import { Advisor, AdvisorPayload, AdvisorUpdatePayload } from "@types";
 import { useAlert } from "@context";
 import { deleteAdvisor, updateAdvisor } from "@lib";
@@ -73,7 +73,7 @@ export default function AdvisorDetailPageContent({
         message: `Advisor "${advisor.name}" deleted successfully!`,
       });
       setShowConfirmDeleteModal(false);
-      router.push("/advisors"); 
+      router.push("/advisors");
     } catch (err: any) {
       showAlert({
         type: "error",
@@ -126,7 +126,9 @@ export default function AdvisorDetailPageContent({
               className={styles.advisorDetailPage__avatar}
             />
           </div>
-          <h2 className={`${styles.advisorDetailPage__name} ${noto.className} antialiased`}>
+          <h2
+            className={`${styles.advisorDetailPage__name} ${noto.className} antialiased`}
+          >
             {advisor.name}{" "}
             <span className={styles.advisorDetailPage__credentials}>
               N/A
@@ -213,24 +215,30 @@ export default function AdvisorDetailPageContent({
 
       <Modal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
         title="Edit Advisor Information"
+        actions={
+          <>
+            <Button
+              variant="secondary"
+              onClick={() => setIsModalOpen(false)}
+              type="button"
+            >
+              Go Back
+            </Button>
+            <Button variant="primary" type="submit" form="advisor-form">
+              Save Changes
+            </Button>
+          </>
+        }
       >
-        <AdvisorForm
-          initialData={advisor}
-          onSubmit={handleFormSubmit}
-          onCancel={() => setIsModalOpen(false)}
-        />
+        <AdvisorForm initialData={advisor} onSubmit={handleFormSubmit} />
       </Modal>
 
       <Modal
         isOpen={showConfirmDeleteModal}
-        onClose={() => setShowConfirmDeleteModal(false)}
         title="Confirm Deletion"
-      >
-        <div className={styles.advisorDetailPage__confirmDelete}>
-          <p>Are you sure you want to delete advisor "{advisor.name}"?</p>
-          <div className={styles["advisorDetailPage__confirmDelete-actions"]}>
+        actions={
+          <>
             <Button
               variant="secondary"
               onClick={() => setShowConfirmDeleteModal(false)}
@@ -240,7 +248,11 @@ export default function AdvisorDetailPageContent({
             <Button variant="danger" onClick={confirmDeleteAdvisor}>
               Delete
             </Button>
-          </div>
+          </>
+        }
+      >
+        <div className={styles.advisorDetailPage__confirmDelete}>
+          <p>Are you sure you want to delete advisor "{advisor.name}"?</p>
         </div>
       </Modal>
     </div>
