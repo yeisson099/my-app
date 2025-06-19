@@ -1,0 +1,74 @@
+.skeletonContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+}
+
+.skeletonHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.skeletonTitle {
+    width: 150px;
+    height: 24px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    animation: shimmer 1.5s infinite linear;
+}
+
+.skeletonButton {
+    width: 120px;
+    height: 32px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    animation: shimmer 1.5s infinite linear;
+}
+
+.skeletonTable {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.skeletonTableHeader,
+.skeletonTableRow {
+    display: flex;
+    gap: 16px;
+}
+
+.skeletonCell {
+    flex: 1;
+    height: 20px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    animation: shimmer 1.5s infinite linear;
+}
+
+.skeletonPagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.skeletonPaginationItem {
+    width: 32px;
+    height: 32px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200px 0;
+    }
+
+    100% {
+        background-position: calc(200px + 100%) 0;
+    }
+}

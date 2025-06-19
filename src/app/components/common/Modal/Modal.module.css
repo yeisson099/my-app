@@ -1,0 +1,106 @@
+.modal__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: var(--spacing-md);
+    animation: fadeIn var(--transition-speed-fast) ease-out;
+}
+
+.modal__content {
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-lg);
+    max-width: 500px;
+    width: 100%;
+    box-shadow: var(--box-shadow-lg);
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideInFromTop var(--transition-speed-fast) ease-out;
+}
+
+.modal__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.modal__title {
+    font-size: var(--font-size-xl);
+    color: var(--color-text-dark);
+    margin: 0;
+    font-weight: 600;
+}
+
+.modal__close-button {
+    font-size: var(--font-size-xxl);
+    line-height: 1;
+    padding: var(--spacing-xs);
+    color: var(--color-text-light);
+}
+
+.modal__close-button:hover {
+    color: var(--color-text-dark);
+    background-color: var(--color-secondary);
+}
+
+.modal__body {
+    flex-grow: 1;
+    padding-top: var(--spacing-sm);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromTop {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .modal__content {
+        max-width: 90%;
+        padding: var(--spacing-md);
+    }
+}
+
+@media (max-width: 480px) {
+    .modal__content {
+        max-width: 95%;
+        padding: var(--spacing-sm);
+    }
+
+    .modal__title {
+        font-size: var(--font-size-lg);
+    }
+
+    .modal__close-button {
+        font-size: var(--font-size-xl);
+    } 
+}
